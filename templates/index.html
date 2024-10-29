@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Screening App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>AI-Based Resume Screening</h1>
+    <form id="screening-form" method="post" enctype="multipart/form-data">
+        <label for="job_description">Job Description:</label><br>
+        <textarea id="job_description" name="job_description" required>{{ job_description }}</textarea><br><br>
+
+        <label for="skills">Desired Skills (comma-separated):</label><br>
+        <textarea id="skills" name="skills" required>{{ skills }}</textarea><br><br>
+
+        <label for="resumes">Upload Resumes (PDF, Word, or Text):</label><br>
+        <input type="file" id="resumes" name="resumes" multiple required accept=".pdf,.doc,.docx,.txt"><br><br>
+
+        <div class="button-group">
+            <button type="submit">Screen Resumes</button>
+    </form>
+            <form method="post" action="/clear">
+                <button type="submit" class="clear-button">Clear Candidates</button>
+            </form>
+        </div>
+
+    {% if candidates %}
+    <h2>Ranked Candidates:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Candidate Name</th>
+                <th>Score</th>
+                <th>Skills Matched</th>
+                <th>Experience</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for candidate in candidates %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ candidate.name }}</td>
+                <td>{{ candidate.score }}</td>
+                <td>{{ ', '.join(candidate.skills) }}</td>
+                <td>
+                    {% for exp in candidate.experience %}
+                        <p>{{ exp }}</p>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>

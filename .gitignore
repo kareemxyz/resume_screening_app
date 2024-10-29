@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+env/
+.DS_Store
+.vscode/
+.idea/
+*.log
+*.bin
+.cache/
+flask_session/
